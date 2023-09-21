@@ -22,7 +22,7 @@ public class Instructor {
     @Column(name="email")
     private String email;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="instructor_detail_id")
     private InstructorDetail instructorDetail;
 
