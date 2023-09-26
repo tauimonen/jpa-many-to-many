@@ -1,13 +1,9 @@
 package com.luv2code.cruddemo.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.ToString;
 
 @Entity
 @Table(name="instructor_detail")
-@Data // to generate getters, setters, toString, and hashCode/equals methods
-@ToString(exclude = "instructor") // https://terasolunaorg.github.io/guideline/5.0.0.RELEASE/en/Appendix/Lombok.html
 public class InstructorDetail {
 
     @Id()
@@ -22,7 +18,10 @@ public class InstructorDetail {
     private String hobby;
 
     // mappedBy = "instructorDetail" refers to property in Instructor class
-    @OneToOne(mappedBy = "instructorDetail", cascade = CascadeType.ALL)
+    // Leave CascadeType.REMOVE out, so we can keep Instructor after deleting
+    // InstructorDetail
+    @OneToOne(mappedBy = "instructorDetail", cascade = { CascadeType.DETACH,
+            CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     private Instructor instructor;
 
     public InstructorDetail() {
@@ -31,5 +30,37 @@ public class InstructorDetail {
     public InstructorDetail(String youtubeChannel, String hobby) {
         this.youtubeChannel = youtubeChannel;
         this.hobby = hobby;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getYoutubeChannel() {
+        return youtubeChannel;
+    }
+
+    public void setYoutubeChannel(String youtubeChannel) {
+        this.youtubeChannel = youtubeChannel;
+    }
+
+    public String getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
+
+    public Instructor getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
     }
 }
