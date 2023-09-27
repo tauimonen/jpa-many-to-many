@@ -14,7 +14,6 @@ import java.util.List;
 @Repository
 public class AppDAOImpl implements AppDAO {
 
-
     // define field for entity manager
     private EntityManager entityManager;
 
@@ -78,5 +77,25 @@ public class AppDAOImpl implements AppDAO {
     @Override
     public InstructorDetail findInstructorDetailById(int theId) {
         return entityManager.find(InstructorDetail.class, theId);
+    }
+
+    @Override
+    public Instructor findInstructorByIdJoinFetch(int theId) {
+
+        // create query
+        // Even when Instructor OneToMany - FetchType.LAZY, JOIN FETCH retrieves
+        // Instructor and courses (similar to EAGER loading)
+        TypedQuery<Instructor> query = entityManager.createQuery(
+                "SELECT i FROM Instructor i"
+                        + "JOIN FETCH i.courses "
+                        + "WHERE i.id = :data", Instructor.class
+        );
+
+        query.setParameter("data", theId);
+
+        // execute query
+        Instructor instructor = query.getSingleResult();
+
+        return instructor;
     }
 }
