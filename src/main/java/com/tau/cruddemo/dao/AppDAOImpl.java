@@ -1,8 +1,8 @@
-package com.luv2code.cruddemo.dao;
+package com.tau.cruddemo.dao;
 
-import com.luv2code.cruddemo.entity.Course;
-import com.luv2code.cruddemo.entity.Instructor;
-import com.luv2code.cruddemo.entity.InstructorDetail;
+import com.tau.cruddemo.entity.Course;
+import com.tau.cruddemo.entity.Instructor;
+import com.tau.cruddemo.entity.InstructorDetail;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
@@ -86,8 +86,9 @@ public class AppDAOImpl implements AppDAO {
         // Even when Instructor OneToMany - FetchType.LAZY, JOIN FETCH retrieves
         // Instructor and courses (similar to EAGER loading)
         TypedQuery<Instructor> query = entityManager.createQuery(
-                "SELECT i FROM Instructor i"
+                "SELECT i FROM Instructor i "
                         + "JOIN FETCH i.courses "
+                        + "JOIN FETCH i.instructorDetail "
                         + "WHERE i.id = :data", Instructor.class
         );
 
@@ -97,5 +98,22 @@ public class AppDAOImpl implements AppDAO {
         Instructor instructor = query.getSingleResult();
 
         return instructor;
+    }
+
+    @Override
+    @Transactional
+    public void update(Instructor tempInstructor) {
+        entityManager.merge(tempInstructor);
+    }
+
+    @Override
+    @Transactional
+    public void update(Course tempCourse) {
+        entityManager.merge(tempCourse);
+    }
+
+    @Override
+    public Course findCourseById(int theId) {
+        return entityManager.find(Course.class, theId);
     }
 }

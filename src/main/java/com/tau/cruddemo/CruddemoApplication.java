@@ -1,9 +1,9 @@
-package com.luv2code.cruddemo;
+package com.tau.cruddemo;
 
-import com.luv2code.cruddemo.dao.AppDAO;
-import com.luv2code.cruddemo.entity.Course;
-import com.luv2code.cruddemo.entity.Instructor;
-import com.luv2code.cruddemo.entity.InstructorDetail;
+import com.tau.cruddemo.dao.AppDAO;
+import com.tau.cruddemo.entity.Course;
+import com.tau.cruddemo.entity.Instructor;
+import com.tau.cruddemo.entity.InstructorDetail;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -36,8 +36,56 @@ public class CruddemoApplication {
 
 			// findInstructorWithCourses(appDAO);
 
-			findCoursesForInstructor(appDAO);
+			// findCoursesForInstructor(appDAO);
+
+			// findInstructorWithCoursesJoinFetch(appDAO);
+			
+			// updateInstructor(appDAO);
+
+			updateCourse(appDAO);
 		};
+	}
+
+	private void updateCourse(AppDAO appDAO) {
+
+		int theId = 10;
+		System.out.println("Finding course id: " + theId);
+		Course tempCourse = appDAO.findCourseById(theId);
+
+		// update the course
+		System.out.println("Updating course id: " + theId);
+		tempCourse.setTitle("Enjoy the Simple Things");
+
+		appDAO.update(tempCourse);
+		System.out.println("Done!");
+	}
+
+	private void updateInstructor(AppDAO appDAO) {
+
+		int theId = 1;
+
+		// find instructor
+		System.out.println("Finding instructor id: " + theId);
+		Instructor tempInstructor = appDAO.findInstructorById(theId);
+
+		// update the instructor
+		System.out.println("Updating instructor id: " + theId);
+		tempInstructor.setLastName("TESTER");
+
+		appDAO.update(tempInstructor);
+		System.out.println("Done!");
+	}
+
+	private void findInstructorWithCoursesJoinFetch(AppDAO appDAO) {
+
+		int theId = 1;
+		System.out.println("Finding instructor is: " + theId);
+		Instructor tempInstructor = appDAO.findInstructorByIdJoinFetch(theId);
+
+		System.out.println("tempInstructor: " + tempInstructor);
+		System.out.println("the associated courses: "
+				+ tempInstructor.getCourses());
+		System.out.println("Done!");
 	}
 
 	private void findCoursesForInstructor(AppDAO appDAO) {
@@ -77,7 +125,7 @@ public class CruddemoApplication {
 
 		// create instructor & details
 		Instructor tempInstructor = new Instructor("Susan",
-				"Public", "susan@luv2code.com");
+				"Public", "susan@mail.com");
 
 		InstructorDetail tempInstructorDetail = new InstructorDetail(
 				"http://www.youtube.com",
@@ -157,10 +205,10 @@ public class CruddemoApplication {
 				"Luv 2 code !!!");*/
 
 		Instructor tempInstructor = new Instructor("Madhu",
-				"Patel", "madhu@luv2code.com");
+				"Patel", "madhu@mail.com");
 
 		InstructorDetail tempInstructorDetail = new InstructorDetail(
-				"http://www.luv2code.com/youtube",
+				"http://www.mail.com/youtube",
 				"guitar !!!");
 
 		// associate the objects

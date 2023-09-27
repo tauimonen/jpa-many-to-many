@@ -1,8 +1,8 @@
-package com.luv2code.cruddemo.dao;
+package com.tau.cruddemo.dao;
 
-import com.luv2code.cruddemo.entity.Course;
-import com.luv2code.cruddemo.entity.Instructor;
-import com.luv2code.cruddemo.entity.InstructorDetail;
+import com.tau.cruddemo.entity.Course;
+import com.tau.cruddemo.entity.Instructor;
+import com.tau.cruddemo.entity.InstructorDetail;
 
 import java.util.List;
 
@@ -21,6 +21,12 @@ public interface AppDAO {
     List<Course> findCoursesByInstructorId(int theId);
 
     Instructor findInstructorByIdJoinFetch(int theId);
+
+    void update(Instructor tempInstructor);
+
+    void update(Course tempCourse);
+
+    Course findCourseById(int theId);
 
 }
 

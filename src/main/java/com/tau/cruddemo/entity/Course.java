@@ -1,4 +1,4 @@
-package com.luv2code.cruddemo.entity;
+package com.tau.cruddemo.entity;
 
 import jakarta.persistence.*;
 
