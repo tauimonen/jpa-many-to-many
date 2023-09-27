@@ -1,6 +1,4 @@
-# jpa-one-to-one-uni
-
-# JPA/Hibernate Advanced Mappings
+# Project for JPA/Hibernate Advanced Mappings
 
 Bi-Directional Notes:
 
