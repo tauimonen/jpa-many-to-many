@@ -29,7 +29,7 @@ public class Course {
     @JoinColumn(name = "course_id")
     private List<Review> reviews;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH,
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH,
             CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinTable(name = "course_student",
             joinColumns = @JoinColumn(name = "course_id"),
@@ -97,6 +97,10 @@ public class Course {
 
     public void setInstructor(Instructor instructor) {
         this.instructor = instructor;
+    }
+
+    public List<Student> getStudents() {
+        return students;
     }
 
     @Override

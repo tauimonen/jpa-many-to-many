@@ -2,6 +2,7 @@ package com.tau.cruddemo.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,12 +23,12 @@ public class Student {
     @Column(name="email")
     private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH,
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH,
             CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinTable(name = "course_student",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
-    private List<Student> courses;
+    private List<Course> courses;
 
 
     public Student() {
@@ -37,6 +38,16 @@ public class Student {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    // add convenience method
+
+    public void addCourse(Course theCourse) {
+        if (courses == null) {
+            courses = new ArrayList<Course>();
+        }
+
+        courses.add(theCourse);
     }
 
     @Override
