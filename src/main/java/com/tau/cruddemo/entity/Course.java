@@ -1,6 +1,7 @@
 package com.tau.cruddemo.entity;
 
 import jakarta.persistence.*;
+import org.springframework.context.annotation.EnableMBeanExport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,17 @@ public class Course {
     @JoinColumn(name = "course_id")
     private List<Review> reviews;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH,
+            CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    @JoinTable(name = "course_student",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    private List<Student> students;
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
     // add a convenience method
 
     public void addReview(Review theReview) {
@@ -37,6 +49,15 @@ public class Course {
         }
 
         reviews.add(theReview);
+    }
+
+    public void addStudent(Student theStudent) {
+
+        if (students == null) {
+            students = new ArrayList<>();
+        }
+
+        students.add(theStudent);
     }
 
     public List<Review> getReviews() {
