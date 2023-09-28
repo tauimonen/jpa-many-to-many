@@ -20,8 +20,62 @@ public class CruddemoApplication {
 	public CommandLineRunner commandLineRunner(AppDAO appDAO) {
 
 		return runner -> {
-			createCourseAndStudents(appDAO);
+			// createCourseAndStudents(appDAO);
+
+			// findCourseAndStudents(appDAO);
+
+			// findStudentAndCourses(appDAO);
+
+			// addMoreCoursesForStudent(appDAO);
+
+			// deleteCourse(appDAO);
+
+			deleteStudent(appDAO);
 		};
+	}
+
+	private void deleteStudent(AppDAO appDAO) {
+
+		int theId = 1;
+		System.out.println("Deleting student id: " + theId);
+
+		appDAO.deleteStudentById(theId);
+		System.out.println("Done!");
+	}
+
+	private void addMoreCoursesForStudent(AppDAO appDAO) {
+
+		int theId = 2;
+		Student tempStudent = appDAO.findStudentAndCoursesByStudentId(theId);
+
+		tempStudent.addCourse(new Course("Data Science Master Course"));
+		tempStudent.addCourse(new Course("Human-Machine-Interaction"));
+
+		System.out.println("Updating student: " + tempStudent);
+		System.out.println("associated courses: " + tempStudent.getCourses());
+
+		appDAO.update(tempStudent);
+		System.out.println("Done!");
+	}
+
+	private void findStudentAndCourses(AppDAO appDAO) {
+
+		int theId = 2;
+		Student tempStudent = appDAO.findStudentAndCoursesByStudentId(theId);
+
+		System.out.println("Loaded student: " + tempStudent);
+		System.out.println("Courses: " + tempStudent.getCourses());
+		System.out.println("Done!");
+	}
+
+	private void findCourseAndStudents(AppDAO appDAO) {
+
+		int theId = 10;
+		Course tempCourse = appDAO.findCourseAndStudentsByCourseId(theId);
+
+		System.out.println("Loaded course: " + tempCourse);
+		System.out.println("Students: " + tempCourse.getStudents());
+		System.out.println("Done!");
 	}
 
 	private void createCourseAndStudents(AppDAO appDAO) {
