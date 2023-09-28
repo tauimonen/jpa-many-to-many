@@ -4,6 +4,7 @@ import com.tau.cruddemo.dao.AppDAO;
 import com.tau.cruddemo.entity.Course;
 import com.tau.cruddemo.entity.Instructor;
 import com.tau.cruddemo.entity.InstructorDetail;
+import com.tau.cruddemo.entity.Review;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,7 +24,58 @@ public class CruddemoApplication {
 
 		return runner -> {
 
+			// createCourseAndReviews(appDAO);
+
+			// retrieveCourseAndReviews(appDAO);
+
+			deleteCourseAndReviews(appDAO);
 		};
+	}
+
+	private void deleteCourseAndReviews(AppDAO appDAO) {
+
+		int theId = 10;
+
+		System.out.println("Deleting course id: " + theId);
+
+		// this will delete couse and associated reviews (CascadeType.ALL)
+		appDAO.deleteCourseById(theId);
+
+		System.out.println("Done");
+	}
+
+	private void retrieveCourseAndReviews(AppDAO appDAO) {
+
+		// get the course and reviews
+		int theId = 10;
+		Course tempCourse = appDAO.findCourseAndReviewsByCourseId(theId);
+
+		// print the course and associated reviews
+		System.out.println(tempCourse);
+		System.out.println(tempCourse.getReviews());
+		System.out.println("Done");
+	}
+
+	private void createCourseAndReviews(AppDAO appDAO) {
+
+		// create a course
+		Course tempCourse = new Course("Advanced Java Programming");
+
+		// add some reviews
+		tempCourse.addReview(
+				new Review("Great course ... loved it!"));
+		tempCourse.addReview(
+				new Review("The best Java course on planet!"));
+		tempCourse.addReview(
+				new Review("What a dumb course, you are an idiot"));
+
+		// save the course and leverage the cascade all
+		System.out.println("Saving the course");
+		System.out.println(tempCourse);
+		System.out.println(tempCourse.getReviews());
+
+		appDAO.save(tempCourse);
+
 	}
 
 	private void deleteCourse(AppDAO appDAO) {
